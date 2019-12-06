@@ -1,3 +1,15 @@
+'''
+Author: Mehwish Qazi
+Thi is the code to generate Random maps for the wumpus world game keeping in mind the following requirements needed:
+   - 4x4 matrix
+   - Place agent at user defined position
+   - A single Wumpus is placed at a random location on the board
+   - A single block of gold is placed at user defined location
+   - Every other remaining square that does not already have an agent, a
+     Wumpus, or a block of gold placed on it is given a 0.2 probability
+     of being a pit
+   - Make sure that there is at least one path for the agent to win the game
+'''
 import random
 Agent = 1
 Pit = 2
@@ -15,7 +27,6 @@ class WumpusWorldGenerator():
         for i in range (0,3):
             rindex_x = (self.x_agent,i) #remove index from agent x path to gold
             rindex_y = (i,self.y_gold) #remove index
-            print (rindex_x)
             self.Indexes.remove(rindex_x)
             self.Indexes.remove(rindex_y)
         self.agent = agent
