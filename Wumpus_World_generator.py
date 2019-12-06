@@ -20,17 +20,22 @@ MapSize = 4
 class WumpusWorldGenerator():
 
     def __init__(self, agent, gold):
+        self.agent = agent
+        self.gold = gold
         self.x_agent, self.y_agent = agent
         self.x_gold, self.y_gold = gold
         self.Indexes =[]
         self.Indexes = self.getIndexes()
+        # Secure at least a single path to win the game.
         for i in range (0,3):
             rindex_x = (self.x_agent,i) #remove index from agent x path to gold
-            rindex_y = (i,self.y_gold) #remove index
+            rindex_xy = (i,self.y_agent)
+            rindex_y = (i,self.y_gold) #remove index from agent y path to gold
             self.Indexes.remove(rindex_x)
             self.Indexes.remove(rindex_y)
-        self.agent = agent
-        self.gold = gold
+            if rindex_xy in self.Indexes:
+                self.Indexes.remove(rindex_xy)
+            
         self.setAgent(self.agent)
         self.setGold(self.gold)
         self.setWumpus()
@@ -45,6 +50,9 @@ class WumpusWorldGenerator():
                                   "3,3": [2, 2, 2, 2, 2, 0]}
         self.createD()
         
+        # return self.world
+        # print (self.world[3][3])
+
     def format_block(self, x, y):
         return "%d,%d" % (x, y)
 
@@ -120,7 +128,8 @@ class WumpusWorldGenerator():
                     self.block_information[self.format_block(i, j)][3] = 0
                     self.block_information[self.format_block(i, j)][4] = 0
                     temp = self.get_neighborhood(self.format_block(i,j))
-
+                    #for item in range(0,len(list1)):
+                        #self.block_information[item][2] = 1
                 if self.world[i][j] == 3:
                     self.block_information[self.format_block(i, j)][0] = 0
                     self.block_information[self.format_block(i, j)][1] = 1
@@ -128,13 +137,15 @@ class WumpusWorldGenerator():
                     self.block_information[self.format_block(i, j)][3] = 0
                     self.block_information[self.format_block(i, j)][4] = 0
                     temp = self.get_neighborhood(self.format_block(i,j))
-
+                    #for item in range(0,len(list1)):
+                        #self.block_information[item][3] = 1
                 if self.world[i][j] == 4:
                     self.block_information[self.format_block(i, j)][0] = 0
                     self.block_information[self.format_block(i, j)][1] = 0
                     self.block_information[self.format_block(i, j)][2] = 0
                     self.block_information[self.format_block(i, j)][3] = 0
                     self.block_information[self.format_block(i, j)][4] = 1
+        print('Block Information')
         print(self.block_information) 
 
     def get_neighborhood(self, position):
@@ -152,9 +163,10 @@ class WumpusWorldGenerator():
                 n_list += [self.format_block(x, y + i)]
         return n_list
 
-
-''' Test the code
+'''
+# Test the code
 A = (0, 0)  # agent location
 G = (3, 3)  # gold location
 wworld = WumpusWorldGenerator(A, G)
-print(wworld.world) '''
+print('Wumpus World')
+print(wworld.world)
