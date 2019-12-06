@@ -15,10 +15,9 @@ class WumpusWorldGenerator():
         for i in range (0,3):
             rindex_x = (self.x_agent,i) #remove index from agent x path to gold
             rindex_y = (i,self.y_gold) #remove index
-            #self.Indexes.remove(rindex_x)
+            print (rindex_x)
+            self.Indexes.remove(rindex_x)
             self.Indexes.remove(rindex_y)
-        # Secure at least a single path to win the game.
-        #self.Indexes.remove(rindex)
         self.agent = agent
         self.gold = gold
         self.setAgent(self.agent)
@@ -35,9 +34,6 @@ class WumpusWorldGenerator():
                                   "3,3": [2, 2, 2, 2, 2, 0]}
         self.createD()
         
-        # return self.world
-        # print (self.world[3][3])
-
     def format_block(self, x, y):
         return "%d,%d" % (x, y)
 
@@ -77,7 +73,8 @@ class WumpusWorldGenerator():
         x, y = index
         self.world[x][y] = value
         # Removes location from Indexes after it is used.
-        self.Indexes.remove(index)
+        if index in self.Indexes:
+            self.Indexes.remove(index)
 
     def setPit(self):
         pit_probability = [1, 0, 0, 0, 0]
@@ -112,8 +109,7 @@ class WumpusWorldGenerator():
                     self.block_information[self.format_block(i, j)][3] = 0
                     self.block_information[self.format_block(i, j)][4] = 0
                     temp = self.get_neighborhood(self.format_block(i,j))
-                    #for item in range(0,len(list1)):
-                        #self.block_information[item][2] = 1
+
                 if self.world[i][j] == 3:
                     self.block_information[self.format_block(i, j)][0] = 0
                     self.block_information[self.format_block(i, j)][1] = 1
@@ -121,8 +117,7 @@ class WumpusWorldGenerator():
                     self.block_information[self.format_block(i, j)][3] = 0
                     self.block_information[self.format_block(i, j)][4] = 0
                     temp = self.get_neighborhood(self.format_block(i,j))
-                    #for item in range(0,len(list1)):
-                        #self.block_information[item][3] = 1
+
                 if self.world[i][j] == 4:
                     self.block_information[self.format_block(i, j)][0] = 0
                     self.block_information[self.format_block(i, j)][1] = 0
@@ -147,11 +142,8 @@ class WumpusWorldGenerator():
         return n_list
 
 
-# Test the code
+''' Test the code
 A = (0, 0)  # agent location
 G = (3, 3)  # gold location
 wworld = WumpusWorldGenerator(A, G)
-print(wworld.world)
-
-
-
+print(wworld.world) '''
