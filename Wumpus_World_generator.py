@@ -88,7 +88,7 @@ class WumpusWorldGenerator():
             self.Indexes.remove(index)
 
     def setPit(self):
-        pit_probability = [1, 0, 0, 0, 0]
+        pit_probability = [1, 1, 0, 0, 0]
         for self.index in self.Indexes:
             self.setPit = random.choice(pit_probability)
             if self.setPit:
